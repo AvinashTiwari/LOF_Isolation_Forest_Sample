@@ -1,0 +1,105 @@
+<div class="container">
+  <h2 class="warning">⚠ Duplicate shipments found</h2>
+  <p class="info">
+    More than one shipment was found with this tracking number.
+    <br />
+    Select the appropriate shipment for this claim.
+  </p>
+  <div class="shipments">
+    <div class="shipment" *ngFor="let shipment of shipments">
+      <input type="radio" name="tracking" [value]="shipment.tracking" id="{{shipment.tracking}}" />
+      <label for="{{shipment.tracking}}">
+        <div class="shipment-details">
+          <p><strong>Tracking #</strong></p>
+          <p>Status: <span [class]="shipment.status.toLowerCase()">{{ shipment.status }}</span></p>
+          <p>Ship date: {{ shipment.shipDate }}</p>
+          <p>Origin: {{ shipment.origin }}</p>
+          <p>Destination: {{ shipment.destination }}</p>
+        </div>
+      </label>
+    </div>
+  </div>
+</div>
+
+
+.container {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+}
+
+.warning {
+  color: #d9534f;
+}
+
+.info {
+  margin: 10px 0;
+  color: #555;
+}
+
+.shipments {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.shipment {
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.shipment-details p {
+  margin: 5px 0;
+}
+
+.shipment input {
+  margin-right: 10px;
+}
+
+.shipment .delivered {
+  color: green;
+}
+
+.shipment .exception {
+  color: #d9534f;
+}
+
+.shipment .label-created {
+  color: #0275d8;
+}
+
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-duplicate-shipments',
+  templateUrl: './duplicate-shipments.component.html',
+  styleUrls: ['./duplicate-shipments.component.css'],
+})
+export class DuplicateShipmentsComponent {
+  shipments = [
+    {
+      tracking: '12345',
+      status: 'Delivered',
+      shipDate: '07/30/2023',
+      origin: 'Origin A',
+      destination: 'Destination A',
+    },
+    {
+      tracking: '67890',
+      status: 'Exception',
+      shipDate: '04/01/2023',
+      origin: 'Origin B',
+      destination: 'Destination B',
+    },
+    {
+      tracking: '11223',
+      status: 'Label created',
+      shipDate: '11/01/2023',
+      origin: 'Origin C',
+      destination: 'Destination C',
+    },
+  ];
+}
