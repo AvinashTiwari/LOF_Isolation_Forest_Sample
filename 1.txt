@@ -1,0 +1,131 @@
+<div class="duplicate-shipments-container">
+  <div class="header">
+    <span class="warning-icon">▲</span>
+    <span class="header-text">Duplicate shipments found</span>
+  </div>
+
+  <div class="message">
+    More than one shipment was found with this tracking number (772799072403).
+    Select the appropriate shipment for this claim.
+  </div>
+
+  <div class="shipments-table">
+    <div class="table-header">
+      <div class="table-cell"></div>
+      <div class="table-cell">TRACKING #</div>
+      <div class="table-cell">STATUS</div>
+      <div class="table-cell">SHIP DATE</div>
+      <div class="table-cell">SHIPPER</div>
+      <div class="table-cell">RECIPIENT</div>
+    </div>
+
+    <div class="table-row" *ngFor="let shipment of shipments">
+      <div class="table-cell">
+        <input type="radio" name="selectedShipment" [value]="shipment.id">
+      </div>
+      <div class="table-cell">{{ shipment.trackingNumber }}</div>
+      <div class="table-cell">
+        <span [class.status-delivered]="shipment.status === 'Delivered'"
+              [class.status-exception]="shipment.status === 'Exception'"
+              [class.status-label-created]="shipment.status === 'Label Created'">
+          {{ shipment.status }}
+        </span>
+        <span class="details-link">Details</span> </div>
+      <div class="table-cell">{{ shipment.shipDate }}</div>
+      <div class="table-cell">{{ shipment.shipper }}</div>
+      <div class="table-cell">{{ shipment.recipient }}</div>
+    </div>
+  </div>
+</div>
+
+.duplicate-shipments-container {
+  border: 1px solid #ccc;
+  padding: 20px;
+  font-family: sans-serif;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.warning-icon {
+  color: orange;
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+.header-text {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.message {
+  margin-bottom: 20px;
+}
+
+.shipments-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-header {
+  display: flex;
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+}
+
+.table-row {
+  display: flex;
+  border-bottom: 1px solid #ccc;
+}
+
+.table-cell {
+  padding: 10px;
+  text-align: left;
+  flex: 1; /* Distribute cell width equally */
+}
+
+.status-delivered {
+  color: green;
+}
+
+.status-exception {
+  color: orange;
+}
+
+.status-label-created {
+  color: gray;
+}
+
+.details-link {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+import { Component } from '@angular/core';
+
+interface Shipment {
+  id: number;
+  trackingNumber: string;
+  status: string;
+  shipDate: string;
+  shipper: string;
+  recipient: string;
+}
+
+@Component({
+  selector: 'app-duplicate-shipments',
+  templateUrl: './duplicate-shipments.component.html',
+  styleUrls: ['./duplicate-shipments.component.css']
+})
+export class DuplicateShipmentsComponent {
+  shipments: Shipment[] = [
+    { id: 1, trackingNumber: '772799072403', status: 'Delivered', shipDate: '12/01/2023', shipper: 'Joliet, IL', recipient: 'Chicago, IL' },
+    { id: 2, trackingNumber: '772799072403', status: 'Exception', shipDate: '04/01/2023', shipper: 'Hazelwood, MO', recipient: 'Utica, NY' },
+    { id: 3, trackingNumber: '772799072403', status: 'Label Created', shipDate: '11/01/2022', shipper: 'Erie, PA', recipient: 'Boston, MA' }
+  ];
+}
